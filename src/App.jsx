@@ -1,9 +1,8 @@
-import "./App.css";
-
+import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 function App() {
   return (
     <>
-      <h1>Welcome to the App</h1>
+      <PrimarySearchAppBar />
     </>
   );
 }
