@@ -189,7 +189,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            Trader
           </Typography>
           <Search className="grow" sx={{ mx: { xs: 1, sm: 3 } }}>
             <SearchIconWrapper sx={{ left: "auto", right: 0 }}>
