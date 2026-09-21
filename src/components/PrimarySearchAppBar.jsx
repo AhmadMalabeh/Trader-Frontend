@@ -16,10 +16,12 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List"; // تعديل المسار هنا ليصبح @mui/material/List
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import AddIcon from "@mui/icons-material/Add";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -28,12 +30,11 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  // استبدال marginRight بـ margin Mapped تلقائياً، أو استخدام الكلاسات المرنة
   marginLeft: theme.spacing(2),
   marginRight: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginRight: theme.spacing(3), // بدلاً من marginLeft القديمة ليكون التباعد صحيحاً في الـ RTL
+    marginRight: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -52,8 +53,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   width: "100%",
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 0, 1, 1), // تعديل الحواف لتصبح المساحة الفارغة للأيقونة من جهة اليمين
-    paddingRight: `calc(1em + ${theme.spacing(4)})`, // استخدام paddingRight بدلاً من paddingLeft لحجز مساحة الأيقونة باليمين
+    padding: theme.spacing(1, 0, 1, 1),
+    paddingRight: `calc(1em + ${theme.spacing(4)})`,
     paddingLeft: theme.spacing(1),
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -61,11 +62,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
 
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const toggleDrawer = (open) => (event) => {
@@ -78,17 +77,8 @@ export default function PrimarySearchAppBar() {
     setIsDrawerOpen(open);
   };
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -96,28 +86,8 @@ export default function PrimarySearchAppBar() {
   };
 
   const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
   const mobileMenuId = "primary-search-account-menu-mobile";
+
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -134,7 +104,34 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMobileMenuClose();
+          alert("فتح صفحة الإعلانات المفضلة");
+        }}
+      >
+        <IconButton size="large" aria-label="add to favorites" color="inherit">
+          <FavoriteIcon />
+        </IconButton>
+        <p>اعلاناتي المفضلة</p>
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMobileMenuClose();
+          alert("فتح صفحة إضافة إعلان جديد");
+        }}
+      >
+        <IconButton size="large" aria-label="add new item" color="inherit">
+          <AddIcon />
+        </IconButton>
+        <p>Add Item</p>
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMobileMenuClose();
+          alert("فتح الرسائل");
+        }}
+      >
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={5} color="error">
             <MailIcon />
@@ -142,7 +139,12 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMobileMenuClose();
+          alert("فتح الإشعارات");
+        }}
+      >
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -154,17 +156,22 @@ export default function PrimarySearchAppBar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+
+      {/* 🛠️ الزر المفقود الذي قمنا بإعادته لقائمة الهاتف */}
+      <MenuItem
+        onClick={() => {
+          handleMobileMenuClose();
+          alert("فتح صفحة الحساب الشخصي");
+        }}
+      >
         <IconButton
           size="large"
           aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
           color="inherit"
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>الملف الشخصي</p>
       </MenuItem>
     </Menu>
   );
@@ -204,8 +211,25 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
+              aria-label="add to favorites"
+              color="inherit"
+              onClick={() => alert("فتح صفحة الإعلانات المفضلة")}
+            >
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="add new item"
+              color="inherit"
+              onClick={() => alert("فتح صفحة إضافة إعلان جديد")}
+            >
+              <AddIcon />
+            </IconButton>
+            <IconButton
+              size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={() => alert("فتح الرسائل")}
             >
               <Badge badgeContent={5} color="error">
                 <MailIcon />
@@ -215,6 +239,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
+              onClick={() => alert("فتح الإشعارات")}
             >
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
@@ -226,7 +251,7 @@ export default function PrimarySearchAppBar() {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={() => alert("فتح صفحة الحساب الشخصي")}
               color="inherit"
             >
               <AccountCircle />
@@ -247,7 +272,8 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
-      {renderMenu}
+
+      {/* القائمة الجانبية كاملة ومغلقة بشكل صحيح */}
       <Drawer anchor="left" open={isDrawerOpen} onClose={toggleDrawer(false)}>
         <Box
           sx={{ width: 250 }}
@@ -256,7 +282,6 @@ export default function PrimarySearchAppBar() {
           onKeyDown={toggleDrawer(false)}
         >
           <List>
-            {/* هنا تضيف العناصر والأزرار التي تريدها */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => alert("تم النقر على الرئيسية")}>
                 <ListItemText primary="الرئيسية" />
@@ -269,6 +294,7 @@ export default function PrimarySearchAppBar() {
               </ListItemButton>
             </ListItem>
 
+            {/* يمكنك إضافة خيارات إضافية هنا للـ Drawer */}
             <ListItem disablePadding>
               <ListItemButton onClick={() => alert("تم النقر على اتصل بنا")}>
                 <ListItemText primary="اتصل بنا" />
