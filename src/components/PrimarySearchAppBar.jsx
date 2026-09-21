@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -62,8 +62,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -124,7 +124,7 @@ export default function PrimarySearchAppBar() {
         <IconButton size="large" aria-label="add new item" color="inherit">
           <AddIcon />
         </IconButton>
-        <p>Add Item</p>
+        <p>اضافة إعلان جديد</p>
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -137,7 +137,7 @@ export default function PrimarySearchAppBar() {
             <MailIcon />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <p>الرسائل</p>
       </MenuItem>
       <MenuItem
         onClick={() => {
@@ -154,7 +154,7 @@ export default function PrimarySearchAppBar() {
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        <p>الإشعارات</p>
       </MenuItem>
 
       {/* 🛠️ الزر المفقود الذي قمنا بإعادته لقائمة الهاتف */}
@@ -178,7 +178,7 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -203,7 +203,7 @@ export default function PrimarySearchAppBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
+              placeholder="ابحث عن إعلان..."
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
@@ -289,8 +289,18 @@ export default function PrimarySearchAppBar() {
             </ListItem>
 
             <ListItem disablePadding>
-              <ListItemButton onClick={() => alert("تم النقر على المنتجات")}>
-                <ListItemText primary="المنتجات" />
+              <ListItemButton
+                onClick={() => alert("تم النقر على اعلانات المركبات")}
+              >
+                <ListItemText primary="اعلانات المركبات" />
+              </ListItemButton>
+            </ListItem>
+
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => alert("تم النقر على اعلانات العقارات")}
+              >
+                <ListItemText primary="اعلانات العقارات" />
               </ListItemButton>
             </ListItem>
 

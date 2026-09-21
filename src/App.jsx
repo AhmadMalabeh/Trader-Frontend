@@ -1,9 +1,11 @@
 import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import ActionAreaCard from "./components/AdCard";
+import { Toolbar } from "@mui/material";
 function App() {
   return (
     <>
       <PrimarySearchAppBar />
+      <Toolbar />
       <div className="flex flex-wrap gap-4 justify-center mt-4">
         <ActionAreaCard
           title="Card 1"
