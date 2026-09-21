@@ -28,11 +28,12 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
+  // استبدال marginRight بـ margin Mapped تلقائياً، أو استخدام الكلاسات المرنة
+  marginLeft: theme.spacing(2),
+  marginRight: 0,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3), // بدلاً من marginLeft القديمة ليكون التباعد صحيحاً في الـ RTL
     width: "auto",
   },
 }));
@@ -49,15 +50,13 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
+  width: "100%",
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    padding: theme.spacing(1, 0, 1, 1), // تعديل الحواف لتصبح المساحة الفارغة للأيقونة من جهة اليمين
+    paddingRight: `calc(1em + ${theme.spacing(4)})`, // استخدام paddingRight بدلاً من paddingLeft لحجز مساحة الأيقونة باليمين
+    paddingLeft: theme.spacing(1),
     transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
   },
 }));
 
@@ -137,7 +136,7 @@ export default function PrimarySearchAppBar() {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
+          <Badge badgeContent={5} color="error">
             <MailIcon />
           </Badge>
         </IconButton>
@@ -192,8 +191,8 @@ export default function PrimarySearchAppBar() {
           >
             MUI
           </Typography>
-          <Search>
-            <SearchIconWrapper>
+          <Search className="grow" sx={{ mx: { xs: 1, sm: 3 } }}>
+            <SearchIconWrapper sx={{ left: "auto", right: 0 }}>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
@@ -201,14 +200,14 @@ export default function PrimarySearchAppBar() {
               inputProps={{ "aria-label": "search" }}
             />
           </Search>
-          <Box sx={{ flexGrow: 1 }} />
+
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={5} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
@@ -259,19 +258,19 @@ export default function PrimarySearchAppBar() {
           <List>
             {/* هنا تضيف العناصر والأزرار التي تريدها */}
             <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemText primary="الصفحة الرئيسية" />
+              <ListItemButton onClick={() => alert("تم النقر على الرئيسية")}>
+                <ListItemText primary="الرئيسية" />
               </ListItemButton>
             </ListItem>
 
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => alert("تم النقر على المنتجات")}>
                 <ListItemText primary="المنتجات" />
               </ListItemButton>
             </ListItem>
 
             <ListItem disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={() => alert("تم النقر على اتصل بنا")}>
                 <ListItemText primary="اتصل بنا" />
               </ListItemButton>
             </ListItem>
