@@ -11,11 +11,12 @@ export default function CustomSelect({
   onChange,
   options,
   helperText,
+  disabled = false,
 }) {
   const id = React.useId();
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 200 }}>
+    <FormControl sx={{ m: 1, minWidth: 200 }} disabled={disabled}>
       <InputLabel id={`${id}-label`}>{label}</InputLabel>
       <Select
         labelId={`${id}-label`}
