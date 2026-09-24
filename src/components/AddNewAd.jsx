@@ -1,13 +1,14 @@
 import { useState, useRef } from "react";
 import TextField from "@mui/material/TextField";
-import CustomNumberField from "./CustomNumberField";
 import ImageUploadPreview from "./ImageUploadPreview";
 import CustomCheckBoxesGroup from "./CustomCheckBoxesGroup";
 import CustomSelect from "./CustomSelect";
 import AddNewCarAd from "./AddNewCarAd";
-
+import AddNewHomeAd from "./AddNewHomeAd";
+import CustomNumberFormat from "./CustomNumberFormat";
 const categoryComponents = {
   cars: AddNewCarAd,
+  realEstate: AddNewHomeAd,
 };
 
 export default function AddNewAd() {
@@ -20,6 +21,8 @@ export default function AddNewAd() {
     adImages: [null, null, null],
     errors: [],
     paymentMethods: [],
+    governorate: "",
+    city: "",
   };
   const [adData, setAdData] = useState(formData);
   const childRef = useRef();
@@ -45,9 +48,21 @@ export default function AddNewAd() {
 
   const intialCategoriesOptions = [
     { id: 1, value: "cars", label: "سيارات" },
-    { id: 2, value: "search", label: "بحث" },
-    { id: 3, value: "real Estate", label: "عقارات" },
-    { id: 4, value: "land", label: "أراضي" },
+    { id: 3, value: "realEstate", label: "عقارات" },
+  ];
+
+  const governorateOptions = [
+    { id: 1, value: "عمان", label: "عمان" },
+    { id: 2, value: "الزرقاء", label: "الزرقاء" },
+    { id: 3, value: "اربد", label: "اربد" },
+    { id: 4, value: "المفرق", label: "المفرق" },
+    { id: 5, value: "عجلون", label: "عجلون" },
+    { id: 5, value: "جرش", label: "جرش" },
+    { id: 5, value: "الطفيلة", label: "الطفيلة" },
+    { id: 5, value: "الكرك", label: "الكرك" },
+    { id: 5, value: "العقبة", label: "العقبة" },
+    { id: 5, value: "البلقاء", label: "البلقاء" },
+    { id: 5, value: "معان", label: "معان" },
   ];
 
   function handDataChange(field, value) {
@@ -98,6 +113,8 @@ export default function AddNewAd() {
               }
               helperText="أدخل وصف الإعلان المختصر"
               fullWidth
+              multiline
+              maxRows={4}
             />
             <TextField
               value={adData.adFullDescription}
@@ -108,13 +125,14 @@ export default function AddNewAd() {
               id="outlined-multiline-flexible"
               label="وصف الإعلان الكامل"
               multiline
-              maxRows={4}
+              maxRows={20}
             />
-            <CustomNumberField
+            <CustomNumberFormat
               label="السعر"
-              min={0}
               value={adData.adPrice}
               onChange={(e) => handDataChange("adPrice", e.target.value)}
+              fullWidth
+              variant="outlined"
             />
             <CustomCheckBoxesGroup
               label="طريقة الدفع"
@@ -123,8 +141,23 @@ export default function AddNewAd() {
               onChange={(e) => handleCheckboxGroupChange("paymentMethods", e)}
               options={paymentMethodOptions}
             />
+            <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col gap-4 bg-white">
+              <h2>الموقع</h2>
+              <CustomSelect
+                label="اختر المحافظة"
+                value={adData.governorate}
+                onChange={(e) => handDataChange("governorate", e.target.value)}
+                options={governorateOptions}
+              />
+              <CustomSelect
+                label="اختر المدينة"
+                value={adData.city}
+                onChange={(e) => handDataChange("city", e.target.value)}
+                options={governorateOptions}
+              />
+            </section>
           </section>
-          <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col items-center gap-4 bg-white text-center justify-center">
+          <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col items-center gap-4 bg-white text-center ">
             <ImageUploadPreview
               isRequired={true}
               title="اختر صورة الاعلان الرئيسية"
@@ -164,7 +197,7 @@ export default function AddNewAd() {
           </section>
 
           {ChildComponent && (
-            <section className="w-full lg:col-span-3 p-4 rounded-lg shadow-md flex flex-col bg-white gap-6">
+            <section className="w-full lg:col-span-4 p-4 rounded-lg shadow-md flex flex-col bg-white gap-6">
               <ChildComponent ref={childRef} />
             </section>
           )}
