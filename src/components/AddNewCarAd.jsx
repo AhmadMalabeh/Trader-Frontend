@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import CustomSelect from "./CustomSelect";
 import CustomRadioGroup from "./CustomRadioGroup";
 import CustomNumberField from "./CustomNumberField";
@@ -8,12 +8,13 @@ import TextField from "@mui/material/TextField";
 import CustomCheckBoxesGroup from "./CustomCheckBoxesGroup";
 
 const currentYear = new Date().getFullYear();
-const yearOptions = Array.from({ length: 57 }, (_, index) => {
-  const year = currentYear - index;
-  return { value: year.toString(), label: year.toString() };
-});
+const yearOptions = [];
 
-export default function AddNewCarAd() {
+for (let year = currentYear; year >= 1950; year--) {
+  yearOptions.push({ value: year.toString(), label: year.toString() });
+}
+
+const AddNewCarAd = forwardRef((props, ref) => {
   const intialState = {
     carBrand: "",
     selectedYear: "",
@@ -36,6 +37,18 @@ export default function AddNewCarAd() {
   };
 
   const [vehicleData, setVehicleData] = useState(intialState);
+
+  useImperativeHandle(ref, () => ({
+    getData: () => vehicleData,
+    validate: () => {
+      // ممكن تضيف تحقق بسيط هون، وترجع true/false
+      // أو ترجع array فيها الأخطاء
+      if (!vehicleData.carBrand || !vehicleData.carModel) {
+        return { valid: false, errors: ["اختر الماركة والموديل"] };
+      }
+      return { valid: true, errors: [] };
+    },
+  }));
 
   function handDataChange(field, value) {
     setVehicleData((prevData) => ({
@@ -305,4 +318,5 @@ export default function AddNewCarAd() {
       />
     </section>
   );
-}
+});
+export default AddNewCarAd;
