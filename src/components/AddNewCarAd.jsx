@@ -6,7 +6,6 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import TextField from "@mui/material/TextField";
 import CustomCheckBoxesGroup from "./CustomCheckBoxesGroup";
-import ImageUploadPreview from "./ImageUploadPreview";
 
 const currentYear = new Date().getFullYear();
 const yearOptions = Array.from({ length: 57 }, (_, index) => {
@@ -15,36 +14,54 @@ const yearOptions = Array.from({ length: 57 }, (_, index) => {
 });
 
 export default function AddNewCarAd() {
-  // 1. تعريف الـ State لكل قائمة عشان تأخذ القيمة المحددة
-  const [carBrand, setCarBrand] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [carModel, setCarModel] = useState("");
-  const [carStatus, setCarStatus] = useState("جديد"); // القيمة الافتراضية "new"
-  const [fuelType, setFuelType] = useState("بنزين"); // القيمة الافتراضية "gasoline"
-  const [mileage, setMileage] = useState(""); // القيمة الافتراضية فارغة
-  const [gearType, setGearType] = useState("أوتوماتيك"); // القيمة الافتراضية "automatic"
-  const [LicensingStatus, setLicensingStatus] = useState("مرخصة"); // القيمة الافتراضية "licensed"
-  const [bodyType, setBodyType] = useState(""); // القيمة الافتراضية فارغة
-  const [Externalcolor, setExternalColor] = useState(""); // القيمة الافتراضية فارغة
-  const [Internalcolor, setInternalColor] = useState(""); // القيمة الافتراضية فارغة
-  const [engineCapacity, setEngineCapacity] = useState(""); // القيمة الافتراضية فارغة
-  const [custom, setCustom] = useState(false); // القيمة الافتراضية false
-  const [shasiNumber, setShasiNumber] = useState(""); // القيمة الافتراضية فارغة
-  const [paymentMethod, setPaymentMethod] = useState(""); // القيمة الافتراضية فارغة
-  const [price, setPrice] = useState(0); // القيمة الافتراضية فارغة
-  const [batteryCapacity, setBatteryCapacity] = useState(""); // القيمة الافتراضية فارغة
-  const [internalSpecifications, setInternalSpecifications] = useState([]); // القيمة الافتراضية فارغة
-  const [externalSpecifications, setExternalSpecifications] = useState([]); // القيمة الافتراضية فارغة
-  const [technicalSpecifications, setTechnicalSpecifications] = useState([]); // القيمة الافتراضية فارغة
-  const [adImages, setAdImages] = useState([null, null, null]); // الـ State الخاصة بالصورة مرفوعة هنا
-
-  const updateImageAtIndex = (index, file) => {
-    setAdImages((prevImages) => {
-      const newImages = [...prevImages];
-      newImages[index] = file; // تحديث الخانة المحددة فقط (إما بإضافة ملف أو null عند الحذف)
-      return newImages;
-    });
+  const intialState = {
+    carBrand: "",
+    selectedYear: "",
+    carModel: "",
+    carStatus: "جديد",
+    fuelType: "بنزين",
+    mileage: "",
+    gearType: "أوتوماتيك",
+    LicensingStatus: "مرخصة",
+    bodyType: "",
+    Externalcolor: "",
+    Internalcolor: "",
+    engineCapacity: "",
+    custom: false,
+    shasiNumber: "",
+    batteryCapacity: "",
+    internalSpecifications: [],
+    externalSpecifications: [],
+    technicalSpecifications: [],
   };
+
+  const [vehicleData, setVehicleData] = useState(intialState);
+
+  function handDataChange(field, value) {
+    setVehicleData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  }
+
+  function handleFuelTypeChange(e) {
+    const value = e.target.value;
+    setVehicleData((prev) => ({
+      ...prev,
+      fuelType: value,
+      batteryCapacity: value !== "كهرباء" ? "" : prev.batteryCapacity,
+    }));
+  }
+
+  function handleCheckboxGroupChange(field, e) {
+    const { value, checked } = e.target;
+    setVehicleData((prev) => ({
+      ...prev,
+      [field]: checked
+        ? [...prev[field], value]
+        : prev[field].filter((item) => item !== value),
+    }));
+  }
 
   const internalSpecificationsOptions = [
     { id: 1, value: "مقاعد جلدية", label: "مقاعد جلدية" },
@@ -81,10 +98,6 @@ export default function AddNewCarAd() {
   const LicensingStatusOptions = [
     { value: "مرخصة", label: "مرخصة" },
     { value: "غير مرخصة", label: "غير مرخصة" },
-  ];
-  const paymentMethodOptions = [
-    { value: "كاش", label: "كاش" },
-    { value: "اقساط", label: "اقساط" },
   ];
   const engineCapacityOptions = [
     { value: "1000cc", label: "1000cc" },
@@ -134,279 +147,162 @@ export default function AddNewCarAd() {
     { value: "يدوي", label: "يدوي/عادي" },
   ];
 
-  // 3. دالة إرسال البيانات إلى السيرفر
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const formData = {
-      car: carBrand,
-      year: selectedYear,
-      model: carModel,
-      status: carStatus,
-      fuel: fuelType,
-      mileage: mileage,
-      custom: custom,
-      internalSpecifications: internalSpecifications,
-    };
-
-    console.log("البيانات الجاهزة للإرسال:", formData);
-
-    // هنا بتستعمل fetch أو axios عشان تبعت البيانات
-
-    // try {
-    //   const response = await fetch('https://example.com', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(formData)
-    //   });
-    //   const data = await response.json();
-    //   alert('تم حفظ الإعلان بنجاح!');
-    // } catch (error) {
-    //   console.error('خطأ في الإرسال:', error);
-    // }
-  };
-
-  function handleFuelTypeChange(event) {
-    const newFuelType = event.target.value;
-    setFuelType(newFuelType);
-
-    // إذا اختار نوع وقود غير الكهرباء، صفر السعة فوراً في نفس الحدث
-    if (newFuelType !== "كهرباء") {
-      setBatteryCapacity("");
-    }
-  }
-
-  // 2. دالة الـ onChange المخصصة للمصفوفات
-  function handleInternalSpecificationsChange(event) {
-    const { value, checked } = event.target;
-
-    if (checked) {
-      // إذا حدد المربع، أضف القيمة للمصفوفة
-      setInternalSpecifications([...internalSpecifications, value]);
-    } else {
-      // إذا ألغى التحديد، احذف القيمة من المصفوفة
-      setInternalSpecifications(
-        internalSpecifications.filter((item) => item !== value),
-      );
-    }
-  }
-  function handleExternalSpecificationsChange(event) {
-    const { value, checked } = event.target;
-    if (checked) {
-      setExternalSpecifications([...externalSpecifications, value]);
-    } else {
-      setExternalSpecifications(
-        externalSpecifications.filter((item) => item !== value),
-      );
-    }
-  }
-  function handleTechnicalSpecificationsChange(event) {
-    const { value, checked } = event.target;
-    if (checked) {
-      setTechnicalSpecifications([...technicalSpecifications, value]);
-    } else {
-      setTechnicalSpecifications(
-        technicalSpecifications.filter((item) => item !== value),
-      );
-    }
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <main className="w-full max-w-7xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
-        <section className="w-full lg:col-span-3 p-4 rounded-lg shadow-md flex flex-col bg-white gap-6">
-          <h2>بيانات المركبة</h2>
-          {/* الاستخدام الثاني: إعلانات السيارات */}
-          <CustomSelect
-            label="ماركة السيارة"
-            value={carBrand}
-            onChange={(e) => setCarBrand(e.target.value)}
-            options={carOptions}
-            helperText="اختر الشركة المصنعة للسيارة"
-          />
-          <CustomSelect
-            label="الموديل"
-            value={carModel}
-            onChange={(e) => setCarModel(e.target.value)}
-            options={modelOptions}
-            helperText="اختر الموديل"
-          />
-          <CustomSelect
-            label="سنة الصنع / الإنتاج"
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            options={yearOptions}
-            helperText="اختر السنة"
-          />
-          <CustomSelect
-            label="نوع الهيكل"
-            value={bodyType}
-            onChange={(e) => setBodyType(e.target.value)}
-            options={bodyTypeOptions}
-            helperText="اختر نوع الهيكل"
-          />
-          <CustomSelect
-            label="لون المركبة من الخارج"
-            value={Externalcolor}
-            onChange={(e) => setExternalColor(e.target.value)}
-            options={colorOptions}
-            helperText="اختر لون المركبة من الخارج"
-          />
-          <CustomSelect
-            label="لون المركبة من الداخل"
-            value={Internalcolor}
-            onChange={(e) => setInternalColor(e.target.value)}
-            options={colorOptions}
-            helperText="لون المركبة من الداخل"
-          />
-          <CustomSelect
-            label="سعة المحرك"
-            value={engineCapacity}
-            onChange={(e) => setEngineCapacity(e.target.value)}
-            options={engineCapacityOptions}
-            helperText="اختر سعة المحرك"
-          />
-          <CustomNumberField
-            label="المسافة المقطوعة"
-            min={0}
-            max={1000000}
-            value={mileage}
-            onChange={(e) => setMileage(e.target.value)}
-          />
-          {/* الاستخدام الأول: تحديد نوع عرض العقار (أفقي row) */}
-          <CustomRadioGroup
-            label="حالة السيارة"
-            name="listing-type"
-            value={carStatus}
-            onChange={(e) => setCarStatus(e.target.value)}
-            options={statusOptions}
-            row={true} // الخيارات رح تظهر بجانب بعض
-          />
-          <CustomRadioGroup
-            label="نوع الوقود"
-            name="fuel-type"
-            value={fuelType}
-            onChange={(e) => handleFuelTypeChange(e)}
-            options={fuelOptions}
-            row={true} // الخيارات رح تظهر بجانب بعض
-          />
-          <CustomSelect
-            disabled={fuelType !== "كهرباء"} // تعطيل القائمة إذا لم يكن نوع الوقود كهرباء
-            label="سعة البطارية"
-            value={batteryCapacity}
-            onChange={(e) => setBatteryCapacity(e.target.value)}
-            options={batteryCapacityOptions}
-            helperText="اختر سعة البطارية"
-          />
+    <section className="w-full lg:col-span-3 p-4 rounded-lg shadow-md flex flex-col bg-white gap-6">
+      <h2>بيانات المركبة</h2>
+      {/* الاستخدام الثاني: إعلانات السيارات */}
+      <CustomSelect
+        label="ماركة السيارة"
+        value={vehicleData.carBrand}
+        onChange={(e) => handDataChange("carBrand", e.target.value)}
+        options={carOptions}
+        helperText="اختر الشركة المصنعة للسيارة"
+      />
+      <CustomSelect
+        label="الموديل"
+        value={vehicleData.carModel}
+        onChange={(e) => handDataChange("carModel", e.target.value)}
+        options={modelOptions}
+        helperText="اختر الموديل"
+      />
+      <CustomSelect
+        label="سنة الصنع / الإنتاج"
+        value={vehicleData.selectedYear}
+        onChange={(e) => handDataChange("selectedYear", e.target.value)}
+        options={yearOptions}
+        helperText="اختر السنة"
+      />
+      <CustomSelect
+        label="نوع الهيكل"
+        value={vehicleData.bodyType}
+        onChange={(e) => handDataChange("bodyType", e.target.value)}
+        options={bodyTypeOptions}
+        helperText="اختر نوع الهيكل"
+      />
+      <CustomSelect
+        label="لون المركبة من الخارج"
+        value={vehicleData.Externalcolor}
+        onChange={(e) => handDataChange("Externalcolor", e.target.value)}
+        options={colorOptions}
+        helperText="اختر لون المركبة من الخارج"
+      />
+      <CustomSelect
+        label="لون المركبة من الداخل"
+        value={vehicleData.Internalcolor}
+        onChange={(e) => handDataChange("Internalcolor", e.target.value)}
+        options={colorOptions}
+        helperText="لون المركبة من الداخل"
+      />
+      <CustomSelect
+        label="سعة المحرك"
+        value={vehicleData.engineCapacity}
+        onChange={(e) => handDataChange("engineCapacity", e.target.value)}
+        options={engineCapacityOptions}
+        helperText="اختر سعة المحرك"
+      />
+      <CustomNumberField
+        label="المسافة المقطوعة"
+        min={0}
+        max={1000000}
+        value={vehicleData.mileage}
+        onChange={(e) => handDataChange("mileage", e.target.value)}
+      />
+      {/* الاستخدام الأول: تحديد نوع عرض العقار (أفقي row) */}
+      <CustomRadioGroup
+        label="حالة السيارة"
+        name="listing-type"
+        value={vehicleData.carStatus}
+        onChange={(e) => handDataChange("carStatus", e.target.value)}
+        options={statusOptions}
+        row={true} // الخيارات رح تظهر بجانب بعض
+      />
+      <CustomRadioGroup
+        label="نوع الوقود"
+        name="fuel-type"
+        value={vehicleData.fuelType}
+        onChange={(e) => handleFuelTypeChange(e)}
+        options={fuelOptions}
+        row={true} // الخيارات رح تظهر بجانب بعض
+      />
+      <CustomSelect
+        disabled={vehicleData.fuelType !== "كهرباء"} // تعطيل القائمة إذا لم يكن نوع الوقود كهرباء
+        label="سعة البطارية"
+        value={vehicleData.batteryCapacity}
+        onChange={(e) => handDataChange("batteryCapacity", e.target.value)}
+        options={batteryCapacityOptions}
+        helperText="اختر سعة البطارية"
+      />
 
-          <CustomRadioGroup
-            label="نوع ناقل الحركة"
-            name="gear-type"
-            value={gearType}
-            onChange={(e) => setGearType(e.target.value)}
-            options={gearOptions}
-            row={true} // الخيارات رح تظهر بجانب بعض
-          />
+      <CustomRadioGroup
+        label="نوع ناقل الحركة"
+        name="gear-type"
+        value={vehicleData.gearType}
+        onChange={(e) => handDataChange("gearType", e.target.value)}
+        options={gearOptions}
+        row={true} // الخيارات رح تظهر بجانب بعض
+      />
 
-          <CustomRadioGroup
-            label="حالة الترخيص"
-            name="licensing-status"
-            value={LicensingStatus}
-            onChange={(e) => setLicensingStatus(e.target.value)}
-            options={LicensingStatusOptions}
-            row={true} // الخيارات رح تظهر بجانب بعض
+      <CustomRadioGroup
+        label="حالة الترخيص"
+        name="licensing-status"
+        value={vehicleData.LicensingStatus}
+        onChange={(e) => handDataChange("LicensingStatus", e.target.value)}
+        options={LicensingStatusOptions}
+        row={true} // الخيارات رح تظهر بجانب بعض
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            value={vehicleData.custom}
+            onChange={(e) => handDataChange("custom", e.target.checked)}
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                value={custom}
-                onChange={(e) => setCustom(e.target.checked)}
-              />
+        }
+        label="هل المركبة مجمركة"
+      />
+
+      <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col gap-4 bg-white">
+        <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
+          <CustomCheckBoxesGroup
+            label="المواصفات الداخلية"
+            name="internal-specifications"
+            value={vehicleData.internalSpecifications}
+            onChange={(e) =>
+              handleCheckboxGroupChange("internalSpecifications", e)
             }
-            label="هل المركبة مجمركة"
+            options={internalSpecificationsOptions}
           />
-
-          <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col gap-4 bg-white">
-            <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
-              <CustomCheckBoxesGroup
-                label="المواصفات الداخلية"
-                name="internal-specifications"
-                value={internalSpecifications}
-                onChange={(e) => handleInternalSpecificationsChange(e)}
-                options={internalSpecificationsOptions}
-              />
-            </div>
-            <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
-              <CustomCheckBoxesGroup
-                label="المواصفات الخارجية"
-                name="external-specifications"
-                value={externalSpecifications}
-                onChange={(e) => handleExternalSpecificationsChange(e)}
-                options={externalSpecificationsOptions}
-              />
-            </div>
-            <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
-              <CustomCheckBoxesGroup
-                label="المواصفات التقنية"
-                name="technical-specifications"
-                value={technicalSpecifications}
-                onChange={(e) => handleTechnicalSpecificationsChange(e)}
-                options={technicalSpecificationsOptions}
-              />
-            </div>
-          </section>
-          <TextField
-            label="رقم الشاصي"
-            value={shasiNumber}
-            onChange={(e) => setShasiNumber(e.target.value)}
-            helperText="أدخل رقم الشاصي"
-            fullWidth
-            margin="normal"
+        </div>
+        <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
+          <CustomCheckBoxesGroup
+            label="المواصفات الخارجية"
+            name="external-specifications"
+            value={vehicleData.externalSpecifications}
+            onChange={(e) =>
+              handleCheckboxGroupChange("externalSpecifications", e)
+            }
+            options={externalSpecificationsOptions}
           />
-          <CustomNumberField
-            label="السعر"
-            min={0}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+        </div>
+        <div className="flex gap-4 border-2 border-solid border-gray-300 p-2 rounded-lg">
+          <CustomCheckBoxesGroup
+            label="المواصفات التقنية"
+            name="technical-specifications"
+            value={vehicleData.technicalSpecifications}
+            onChange={(e) =>
+              handleCheckboxGroupChange("technicalSpecifications", e)
+            }
+            options={technicalSpecificationsOptions}
           />
-
-          <CustomRadioGroup
-            label="طريقة الدفع"
-            name="payment-method"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-            options={paymentMethodOptions}
-            row={true} // الخيارات رح تظهر بجانب بعض
-          />
-        </section>
-
-        <section className="w-full lg:col-span-1 p-4 rounded-lg shadow-md flex flex-col gap-4 bg-white text-center">
-          <ImageUploadPreview
-            title="اختر صورة الرئيسية للإعلان"
-            selectedImage={adImages[0]}
-            onImageChange={(file) => updateImageAtIndex(0, file)}
-          />
-          <ImageUploadPreview
-            title="اختر صورة"
-            selectedImage={adImages[1]}
-            onImageChange={(file) => updateImageAtIndex(1, file)}
-          />
-          <ImageUploadPreview
-            title="اختر صورة"
-            selectedImage={adImages[2]}
-            onImageChange={(file) => updateImageAtIndex(2, file)}
-          />
-        </section>
-      </main>
-
-      <div style={{ marginTop: "20px" }} className="flex justify-center">
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          حفظ الإعلان
-        </button>
-      </div>
-    </form>
+        </div>
+      </section>
+      <TextField
+        label="رقم الشاصي"
+        value={vehicleData.shasiNumber}
+        onChange={(e) => handDataChange("shasiNumber", e.target.value)}
+        helperText="أدخل رقم الشاصي"
+        fullWidth
+        margin="normal"
+      />
+    </section>
   );
 }

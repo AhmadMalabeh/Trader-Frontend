@@ -2,28 +2,38 @@ export default function ImageUploadPreview({
   selectedImage,
   onImageChange,
   title = "اختر صورة",
+  isRequired = false,
+  error = "", // 👈 بنضيف prop جديد للخطأ
 }) {
   const handleFileChange = (e) => {
-    const file = e.target.files[0]; // اختيار صورة واحدة فقط
+    const file = e.target.files[0];
     if (file) {
-      onImageChange(file); // تمرير الصورة للـ Parent لتخزينها في مكانها الصحيح
+      onImageChange(file);
     }
   };
 
   const handleRemove = () => {
-    onImageChange(null); // إرجاع القيمة لـ null في الـ Parent عند الضغط على ✕
+    onImageChange(null);
   };
 
   return (
-    <div className="w-full max-w-sm">
+    <div className="w-full max-w-sm flex flex-col gap-1">
+      {" "}
+      {/* تم إضافة gap ومسافة */}
       {!selectedImage ? (
-        <label className="w-full h-32 border-2 border-dashed border-gray-300 hover:border-blue-500 bg-gray-50 flex flex-col items-center justify-center cursor-pointer rounded-lg text-gray-500 transition">
-          <span className="text-sm">{title}</span>
+        <label
+          className={`w-full h-32 border-2 border-dashed bg-gray-50 flex flex-col items-center justify-center cursor-pointer rounded-lg text-gray-500 transition
+            ${error ? "border-red-500 hover:border-red-600 bg-red-50/30" : "border-gray-300 hover:border-blue-500"} 
+          `}
+        >
+          <span className={`text-sm ${error ? "text-red-600" : ""}`}>
+            {title} {isRequired && <span className="text-red-500">*</span>}
+          </span>
           <input
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="hidden" // إخفاء حقل المتصفح الافتراضي
+            className="hidden"
           />
         </label>
       ) : (
@@ -41,6 +51,10 @@ export default function ImageUploadPreview({
             ✕
           </button>
         </div>
+      )}
+      {/* 👈 إظهار نص الخطأ بشكل أنيق تحت الحقل مباشرة */}
+      {error && (
+        <span className="text-xs text-red-500 font-medium">{error}</span>
       )}
     </div>
   );
