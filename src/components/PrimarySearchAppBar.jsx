@@ -22,6 +22,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import AddIcon from "@mui/icons-material/Add";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,6 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -118,7 +120,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem
         onClick={() => {
           handleMobileMenuClose();
-          alert("فتح صفحة إضافة إعلان جديد");
+          navigate("/add-new-ad");
         }}
       >
         <IconButton size="large" aria-label="add new item" color="inherit">
@@ -221,7 +223,7 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="add new item"
               color="inherit"
-              onClick={() => alert("فتح صفحة إضافة إعلان جديد")}
+              onClick={() => navigate("/add-new-ad")}
             >
               <AddIcon />
             </IconButton>
@@ -283,7 +285,7 @@ export default function PrimarySearchAppBar() {
         >
           <List>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => alert("تم النقر على الرئيسية")}>
+              <ListItemButton onClick={() => navigate("/")}>
                 <ListItemText primary="الرئيسية" />
               </ListItemButton>
             </ListItem>
