@@ -20,6 +20,7 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-number-format": "^5.4.5",
+    "react-router-dom": "^7.18.4",
     "stylis": "^4.4.0",
     "stylis-plugin-rtl": "^2.1.1",
     "tailwindcss": "^4.3.3"
