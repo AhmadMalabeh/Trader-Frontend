@@ -1,10 +1,31 @@
-export default function HomePage() {
+import HeroBanner from "./HeroBanner"; // تأكد من مسار الملف الصحيح
+
+const HomePage = () => {
+  const handleDetailsClick = () => {
+    alert("تم الضغط على عرض التفاصيل");
+    // هون بتقدر تستخدم React Router للتنقل مثل: navigate('/details')
+  };
+
+  const handleContactClick = () => {
+    alert("تم الضغط على اتصل بنا");
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <h1 className="text-4xl font-bold mb-8">مرحباً بك في صفحة الرئيسية</h1>
-      <p className="text-lg text-gray-700">
-        هنا يمكنك إضافة إعلانات جديدة للسيارات والعقارات.
-      </p>
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <div className="max-w-7xl mx-auto">
+        {/* استدعاء الـ Component */}
+        <HeroBanner
+          title="Trader - تصفح وانشر إعلاناتك بسهولة"
+          subtitle="اكتشف أفضل العروض"
+          onPrimaryClick={handleDetailsClick}
+          onSecondaryClick={handleContactClick}
+        />
+
+        {/* باقي محتوى الشاشة الرئيسية مثل بطاقات السيارات والعقارات بكون تحت البانر */}
+        <div className="mt-8">{/* الكود الخاص بالبطاقات */}</div>
+      </div>
     </div>
   );
-}
+};
+
+export default HomePage;
