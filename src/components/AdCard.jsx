@@ -1,45 +1,57 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import CardActionArea from "@mui/material/CardActionArea";
-import Box from "@mui/material/Box";
+export default function AdCard({
+  title,
+  description,
+  image,
+  imageUrl,
+  price,
+  buttonText = "عرض التفاصيل",
+  buttonLink,
+  onClick,
+}) {
+  const imageSource = imageUrl || image;
+  const handleClick = onClick || (() => alert(`You clicked on ${title}`));
 
-export default function ActionAreaCard({ title, description, image, price }) {
+  const buttonContent = (
+    <span className="inline-flex items-center rounded-md bg-[#129FF5] px-7 py-3 text-sm font-medium text-white transition-colors hover:bg-[#0b8ddd] md:text-base">
+      {buttonText}
+    </span>
+  );
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea onClick={() => alert(`You clicked on ${title}`)}>
-        <CardMedia
-          component="img"
-          height="140"
-          image={image}
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+    <article className="flex min-h-90 flex-col-reverse gap-4 overflow-hidden bg-[#F7F9FB] shadow-sm md:flex-row">
+      <div className="flex flex-1 flex-col justify-between p-4 md:w-[48%] md:p-8">
+        <div>
+          <h2 className="text-3xl font-bold leading-tight text-[#141826] md:text-[40px]">
             {title}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          </h2>
+          <p className="mt-4 text-base font-normal leading-relaxed text-[#667085]">
             {description}
-          </Typography>
-          {/* 2. إضافة قسم السعر أسفل الوصف وتنسيقه بشكل مميز */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              variant="h6"
-              component="span"
-              sx={{ color: "primary.main", fontWeight: "bold" }}
-            >
+          </p>
+          {price !== undefined && (
+            <p className="mt-3 text-base font-semibold text-[#141826]">
               {price} JOD
-            </Typography>
-          </Box>
-        </CardContent>
-      </CardActionArea>
-    </Card>
+            </p>
+          )}
+        </div>
+
+        <div className="mt-4 md:mt-auto md:pt-12">
+          {buttonLink ? (
+            <a href={buttonLink}>{buttonContent}</a>
+          ) : (
+            <button type="button" onClick={handleClick}>
+              {buttonContent}
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="min-h-64 w-full flex-1 md:w-[52%]">
+        <img
+          src={imageSource}
+          alt={title}
+          className="h-full min-h-64 w-full object-cover md:min-h-full"
+        />
+      </div>
+    </article>
   );
 }

@@ -1,7 +1,6 @@
-import mainScreenCarImage from "../assets/mainScreenCarImage.jpg"; // استيراد صورة الخلفية الافتراضية
-
+import heroImage from "../assets/heroImage.jpg"; // استيراد صورة افتراضية من مجلد الأصول
 const HeroBanner = ({
-  backgroundImage = mainScreenCarImage, // صورة افتراضية للعقار
+  backgroundImage = heroImage, // صورة افتراضية للعقار
   title = "Trader - تصفح وانشر إعلاناتك بسهولة",
   subtitle = "اكتشف أفضل العروض",
   primaryBtnText = "عرض التفاصيل",
@@ -11,7 +10,7 @@ const HeroBanner = ({
 }) => {
   return (
     <div
-      className="relative w-full h-60 md:h-90 rounded-xl overflow-hidden shadow-lg bg-cover bg-center flex items-center"
+      className="relative w-full h-100 overflow-hidden shadow-lg bg-cover bg-center flex items-center md:h-120 lg:h-136"
       style={{ backgroundImage: `url(${backgroundImage})` }}
       dir="rtl" // لضمان المحاذاة الصحيحة باللغة العربية
     >

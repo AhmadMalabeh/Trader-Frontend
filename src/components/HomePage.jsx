@@ -11,7 +11,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 px-0 pb-6 pt-0 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* استدعاء الـ Component */}
         <HeroBanner
@@ -23,6 +23,18 @@ const HomePage = () => {
 
         {/* باقي محتوى الشاشة الرئيسية مثل بطاقات السيارات والعقارات بكون تحت البانر */}
         <div className="mt-8">
+          <AdCard
+            title="سيارة تويوتا"
+            description="سيارة تويوتا 2020 بحالة ممتازة"
+            image="https://www.usnews.com/object/image/0000019d-2121-d441-a7bd-e3bb23450000/2026-chevrolet-corvette-front-angle-view-ak.jpg?update-time=1774377312762&size=responsiveGallery&format=webp"
+            price={15000}
+          />
+          <AdCard
+            title="سيارة تويوتا"
+            description="سيارة تويوتا 2020 بحالة ممتازة"
+            image="https://www.usnews.com/object/image/0000019d-2121-d441-a7bd-e3bb23450000/2026-chevrolet-corvette-front-angle-view-ak.jpg?update-time=1774377312762&size=responsiveGallery&format=webp"
+            price={15000}
+          />
           <AdCard
             title="سيارة تويوتا"
             description="سيارة تويوتا 2020 بحالة ممتازة"
