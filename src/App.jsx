@@ -1,14 +1,14 @@
-import PrimarySearchAppBar from "./components/PrimarySearchAppBar";
 import AddNewAd from "./components/AddNewAd";
 import HomePage from "./components/HomePage";
 import { Toolbar } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <div className="bg-gray-50  m-auto">
       <BrowserRouter>
         <div className="border-2 border-gray-200 rounded-lg shadow-lg max-w-7xl m-auto">
-          <PrimarySearchAppBar />
+          <Navbar />
           <Toolbar sx={{ minHeight: { xs: 72, sm: 80 } }} />
 
           <Routes>
