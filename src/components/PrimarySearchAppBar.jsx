@@ -27,9 +27,9 @@ import { useNavigate } from "react-router-dom";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.08),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.black, 0.12),
   },
   marginLeft: theme.spacing(2),
   marginRight: 0,
@@ -180,7 +180,21 @@ export default function PrimarySearchAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar
+        position="fixed"
+        sx={{
+          top: { xs: 8, sm: 16 },
+          left: "50%",
+          right: "auto",
+          width: "calc(100% - 48px)",
+          maxWidth: 1280,
+          transform: "translateX(-50%)",
+          borderRadius: 2,
+          backgroundColor: "#f9fafb",
+          color: "#000",
+          boxShadow: "none",
+        }}
+      >
         <Toolbar>
           <IconButton
             size="large"
