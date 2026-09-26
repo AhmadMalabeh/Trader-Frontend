@@ -194,7 +194,15 @@ export default function Navbar({ notificationCount = 5 }) {
                 className="flex items-center gap-2 rounded-lg p-1 transition-colors hover:bg-slate-100"
                 aria-label="Open user menu"
                 aria-expanded={isUserMenuOpen}
-                onClick={() => setIsUserMenuOpen((isOpen) => !isOpen)}
+                onClick={() => {
+                  // إذا كانت الشاشة كبيرة (أكبر من أو تساوي 768px وهي قيمة md في Tailwind)
+                  if (window.innerWidth >= 768) {
+                    navigate("/profile");
+                  } else {
+                    // إذا كانت الشاشة صغيرة يقوم بفتح وإغلاق القائمة
+                    setIsUserMenuOpen((isOpen) => !isOpen);
+                  }
+                }}
               >
                 <User className="h-5.5 w-5.5 text-black" strokeWidth={2} />
                 <ChevronDown
@@ -234,7 +242,10 @@ export default function Navbar({ notificationCount = 5 }) {
                   type="button"
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-[#1F2430] transition-colors hover:bg-slate-100"
                   role="menuitem"
-                  onClick={() => setIsUserMenuOpen(false)}
+                  onClick={() => {
+                    setIsUserMenuOpen(false);
+                    navigate("/profile");
+                  }}
                 >
                   <User className="h-4 w-4 text-black" />
                   <span>الصفحة الشخصية</span>

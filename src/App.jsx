@@ -3,7 +3,7 @@ import HomePage from "./components/HomePage";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AdDetails from "./components/AdDetails";
-
+import ProfileDetails from "./components/PofileDetails";
 function AdDetailsRoute({ ads }) {
   const { id } = useParams();
   const ad = ads.find((item) => String(item.id) === id) || ads[0];
@@ -17,7 +17,7 @@ function App() {
 
     // بيانات الإعلان
     title: "Toyota Camry 2022",
-    price: "18,500 JOD",
+    price: "18,500",
     location: "عمان - تلاع العلي",
     postedAt: "منذ يومين",
 
@@ -78,7 +78,7 @@ function App() {
       ...testAd,
       id: 2,
       title: "BMW X5 2021",
-      price: "32,000 JOD",
+      price: "32,000",
       location: "عمان - عبدون",
       postedAt: "منذ 5 أيام",
       description:
@@ -93,7 +93,7 @@ function App() {
       ...testAd,
       id: 3,
       title: "شقة حديثة للبيع",
-      price: "95,000 JOD",
+      price: "95,000",
       location: "عمان - الجبيهة",
       postedAt: "منذ أسبوع",
       description:
@@ -105,6 +105,13 @@ function App() {
       ],
     },
   ];
+
+  const user = {
+    avatar: "https://i.pravatar.cc/150?img=12",
+    name: "Ahmad Ali",
+    phone: "+962790000000",
+    memberSince: "يناير 2021",
+  };
 
   return (
     <div className="bg-gray-50  m-auto">
@@ -119,6 +126,10 @@ function App() {
               <Route
                 path="/ad-details/:id"
                 element={<AdDetailsRoute ads={ads} />}
+              />
+              <Route
+                path="/profile"
+                element={<ProfileDetails user={user} ads={ads} />}
               />
             </Routes>
           </div>
