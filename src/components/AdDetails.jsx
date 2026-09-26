@@ -121,7 +121,7 @@ export default function AdDetails({ ad = {}, apiBaseUrl = "" }) {
           <h1 className="wrap-break-words text-2xl font-bold text-[#141826]">
             {ad.title}
           </h1>
-          <p className="mt-2 text-xl font-bold text-red-500">{ad.price}</p>
+          <p className="mt-2 text-xl font-bold text-green-500">{ad.price}</p>
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-500">
             {ad.location && (
               <span className="inline-flex items-center gap-1.5">

@@ -45,7 +45,7 @@ export default function AdCard({
         </div>
       </div>
 
-      <div className="aspect-[4/3] w-full shrink-0 overflow-hidden md:w-[52%]">
+      <div className="aspect-4/3 w-full shrink-0 overflow-hidden md:w-[52%]">
         <img
           src={imageSource}
           alt={title}
