@@ -1,8 +1,111 @@
 import AddNewAd from "./components/AddNewAd";
 import HomePage from "./components/HomePage";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import AdDetails from "./components/AdDetails";
+
+function AdDetailsRoute({ ads }) {
+  const { id } = useParams();
+  const ad = ads.find((item) => String(item.id) === id) || ads[0];
+
+  return <AdDetails ad={ad} />;
+}
+
 function App() {
+  const testAd = {
+    id: 1,
+
+    // بيانات الإعلان
+    title: "Toyota Camry 2022",
+    price: "18,500 JOD",
+    location: "عمان - تلاع العلي",
+    postedAt: "منذ يومين",
+
+    description:
+      "سيارة Toyota Camry 2022 بحالة ممتازة، فحص كامل، استخدام شخصي، بدون مشاكل. السيارة نظيفة ومستخدمة بعناية.",
+
+    // الصور
+    mainImage: "https://images.unsplash.com/photo-1550355291-bbee04a92027",
+
+    secondaryImages: [
+      "https://images.unsplash.com/photo-1542282088-fe8426682b8f",
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a",
+    ],
+
+    // معلومات البائع
+    seller: {
+      name: "Ahmad Ali",
+      phone: "+962790000000",
+      avatar: "https://i.pravatar.cc/150?img=12",
+    },
+
+    // البيانات التي ستظهر في قسم المواصفات
+    specs: [
+      { label: "الماركة", value: "Toyota" },
+      { label: "الموديل", value: "Camry" },
+      { label: "سنة الصنع", value: "2022" },
+      { label: "نوع الهيكل", value: "سيدان" },
+      { label: "اللون الخارجي", value: "أبيض" },
+      { label: "اللون الداخلي", value: "أسود" },
+      { label: "سعة المحرك", value: "2500 cc" },
+      { label: "المسافة المقطوعة", value: "45,000 km" },
+      { label: "حالة السيارة", value: "مستعملة" },
+      { label: "نوع الوقود", value: "بنزين" },
+      { label: "ناقل الحركة", value: "أوتوماتيك" },
+      { label: "حالة الترخيص", value: "مرخصة" },
+      { label: "مجمركة", value: "نعم" },
+      { label: "طرق الدفع", value: "كاش، تقسيط" },
+      { label: "رقم الشاصي", value: "JTDB11HK202200123" },
+
+      {
+        label: "المواصفات الداخلية",
+        value: "مقاعد جلد، شاشة، تكييف",
+      },
+      {
+        label: "المواصفات الخارجية",
+        value: "جنوط، كاميرا خلفية، حساسات",
+      },
+      {
+        label: "المواصفات التقنية",
+        value: "ABS، Airbags، مثبت سرعة",
+      },
+    ],
+  };
+
+  const ads = [
+    testAd,
+    {
+      ...testAd,
+      id: 2,
+      title: "BMW X5 2021",
+      price: "32,000 JOD",
+      location: "عمان - عبدون",
+      postedAt: "منذ 5 أيام",
+      description:
+        "BMW X5 بحالة ممتازة، صيانة دورية، ومواصفات عالية مناسبة للعائلة.",
+      mainImage: "https://images.unsplash.com/photo-1555215695-3004980ad54e",
+      secondaryImages: [
+        "https://images.unsplash.com/photo-1525609004556-c46c7dcfbbd3",
+        "https://images.unsplash.com/photo-1542362567-b07e54358753",
+      ],
+    },
+    {
+      ...testAd,
+      id: 3,
+      title: "شقة حديثة للبيع",
+      price: "95,000 JOD",
+      location: "عمان - الجبيهة",
+      postedAt: "منذ أسبوع",
+      description:
+        "شقة واسعة بتشطيب حديث، موقع هادئ وقريبة من الخدمات الرئيسية.",
+      mainImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
+      secondaryImages: [
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3",
+        "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d",
+      ],
+    },
+  ];
+
   return (
     <div className="bg-gray-50  m-auto">
       <BrowserRouter>
@@ -11,8 +114,12 @@ function App() {
 
           <div className="mt-0">
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              <Route path="/" element={<HomePage ads={ads} />} />
               <Route path="/add-new-ad" element={<AddNewAd />} />
+              <Route
+                path="/ad-details/:id"
+                element={<AdDetailsRoute ads={ads} />}
+              />
             </Routes>
           </div>
         </div>

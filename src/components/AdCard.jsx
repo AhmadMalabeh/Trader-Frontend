@@ -45,11 +45,11 @@ export default function AdCard({
         </div>
       </div>
 
-      <div className="min-h-64 w-full flex-1 md:w-[52%]">
+      <div className="aspect-[4/3] w-full shrink-0 overflow-hidden md:w-[52%]">
         <img
           src={imageSource}
           alt={title}
-          className="h-full min-h-64 w-full object-cover md:min-h-full"
+          className="h-full w-full object-cover"
         />
       </div>
     </article>
