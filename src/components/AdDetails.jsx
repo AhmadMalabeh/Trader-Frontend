@@ -146,30 +146,37 @@ export default function AdDetails({ ad = {}, apiBaseUrl = "" }) {
           className="rounded-2xl border border-slate-100 p-4"
           aria-label="Seller"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-gray-500">
-              {avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt={seller.name ? `${seller.name} avatar` : "Seller avatar"}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <UserRound size={22} aria-hidden="true" />
-              )}
-            </div>
-            <div className="min-w-0">
-              <p className="truncate font-semibold text-[#141826]">
-                {seller.name || "Seller"}
-              </p>
-              {seller.phone && (
-                <p className="mt-0.5 inline-flex items-center gap-1 text-sm text-gray-500">
-                  <Phone size={14} aria-hidden="true" />
-                  {seller.phone}
+          <button
+            onClick={() => navigate(`/seller/${seller.id || seller.userId}`)}
+            className="w-full"
+          >
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-slate-100 text-gray-500">
+                {avatarUrl ? (
+                  <img
+                    src={avatarUrl}
+                    alt={
+                      seller.name ? `${seller.name} avatar` : "Seller avatar"
+                    }
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <UserRound size={22} aria-hidden="true" />
+                )}
+              </div>
+              <div className="min-w-0">
+                <p className="truncate font-semibold text-[#141826]">
+                  {seller.name || "Seller"}
                 </p>
-              )}
+                {seller.phone && (
+                  <p className="mt-0.5 inline-flex items-center gap-1 text-sm text-gray-500">
+                    <Phone size={14} aria-hidden="true" />
+                    {seller.phone}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
+          </button>
           <a
             href={seller.phone ? `tel:${seller.phone}` : undefined}
             className="mt-4 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#141826] px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-[#252b3d] focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
