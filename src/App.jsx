@@ -111,6 +111,7 @@ function App() {
     name: "Ahmad Ali",
     phone: "+962790000000",
     memberSince: "يناير 2021",
+    email: "malabehahmad5@gmail.com",
   };
 
   return (
@@ -129,7 +130,13 @@ function App() {
               />
               <Route
                 path="/profile"
-                element={<ProfileDetails user={user} ads={ads} />}
+                element={
+                  <ProfileDetails
+                    user={user}
+                    ads={ads}
+                    favoriteAds={[ads[1]]}
+                  />
+                }
               />
             </Routes>
           </div>

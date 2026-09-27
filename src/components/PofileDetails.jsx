@@ -3,25 +3,15 @@ import { CalendarDays, Edit3, Phone, Plus, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import AdCard from "./AdCard";
 
-const filters = [
-  { value: "all", label: "الكل" },
-  { value: "active", label: "نشط" },
-  { value: "expired", label: "منتهي" },
-];
-
-function isExpiredAd(status) {
-  return status === "expired" || status === "sold";
-}
-
-export default function ProfileDetails({ user = {}, ads = [] }) {
-  const [activeFilter, setActiveFilter] = useState("all");
-  const activeAdsCount = ads.filter((ad) => ad.status === "active").length;
-  const filteredAds = ads.filter((ad) => {
-    if (activeFilter === "all") return true;
-    if (activeFilter === "expired") return isExpiredAd(ad.status);
-    return ad.status === activeFilter;
-  });
+export default function ProfileDetails({
+  user = {},
+  ads = [],
+  favoriteAds = [],
+}) {
+  const [activeTab, setActiveTab] = useState("my-ads");
+  const activeAdsCount = ads.length;
   const avatar = user.avatar;
+  const displayedAds = activeTab === "favorites" ? favoriteAds : ads;
 
   return (
     <main
@@ -45,15 +35,41 @@ export default function ProfileDetails({ user = {}, ads = [] }) {
             )}
           </div>
 
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex flex-1 flex-col items-center gap-1 sm:items-start">
             <h1 className="wrap-break-word text-2xl font-bold text-[#141826]">
               {user.name || "المستخدم"}
             </h1>
             {user.phone && (
-              <p className="mt-2 inline-flex items-center gap-2 text-sm text-gray-500">
+              <a
+                className="mt-2 inline-flex items-center gap-2 text-sm text-gray-500"
+                href={`tel:${user.phone}`}
+              >
                 <Phone size={16} aria-hidden="true" />
                 {user.phone}
-              </p>
+              </a>
+            )}
+            {user.email && (
+              <a
+                className="mt-1 inline-flex items-center gap-2 text-sm text-gray-500"
+                href={`mailto:${user.email}`}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <path d="M4 8h16" />
+                  <path d="M4 16h16" />
+                </svg>
+                {user.email}
+              </a>
             )}
             {user.memberSince && (
               <p className="mt-1 inline-flex items-center gap-2 text-sm text-gray-500">
@@ -67,6 +83,13 @@ export default function ProfileDetails({ user = {}, ads = [] }) {
           </div>
 
           <div className="flex w-full shrink-0 flex-col items-center gap-3 sm:w-auto sm:items-end">
+            <Link
+              to="/add-new-ad"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+              <Plus size={16} aria-hidden="true" />
+              إضافة إعلان جديد
+            </Link>
             <button
               type="button"
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#141826] transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -92,18 +115,21 @@ export default function ProfileDetails({ user = {}, ads = [] }) {
               id="my-ads-heading"
               className="text-2xl font-bold text-[#141826]"
             >
-              إعلاناتي
+              نشاطاتي
             </h2>
 
-            <div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-auto p-3">
-              {filters.map((filter) => {
-                const isSelected = activeFilter === filter.value;
+            <div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-auto">
+              {[
+                { value: "my-ads", label: "إعلاناتي" },
+                { value: "favorites", label: "إعلاناتي المفضلة" },
+              ].map((tab) => {
+                const isSelected = activeTab === tab.value;
 
                 return (
                   <button
-                    key={filter.value}
+                    key={tab.value}
                     type="button"
-                    onClick={() => setActiveFilter(filter.value)}
+                    onClick={() => setActiveTab(tab.value)}
                     className={`min-h-11 shrink-0 rounded-full px-5 py-2 text-sm font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${
                       isSelected
                         ? "bg-[#141826] text-white"
@@ -111,16 +137,16 @@ export default function ProfileDetails({ user = {}, ads = [] }) {
                     }`}
                     aria-pressed={isSelected}
                   >
-                    {filter.label}
+                    {tab.label}
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {filteredAds.length > 0 ? (
+          {displayedAds.length > 0 ? (
             <div className="mt-5 flex flex-col gap-6 sm:mt-6">
-              {filteredAds.map((ad) => (
+              {displayedAds.map((ad) => (
                 <AdCard
                   key={ad.id}
                   title={ad.title}
@@ -135,7 +161,9 @@ export default function ProfileDetails({ user = {}, ads = [] }) {
           ) : (
             <div className="mt-5 flex flex-col items-center justify-center rounded-2xl bg-white px-6 py-14 text-center shadow-sm">
               <p className="text-sm text-gray-500">
-                لا توجد إعلانات في هذا التصنيف
+                {activeTab === "favorites"
+                  ? "لا توجد إعلانات مفضلة"
+                  : "لا توجد إعلانات نشطة"}
               </p>
               <Link
                 to="/add-new-ad"
