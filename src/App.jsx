@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AdDetails from "./components/AdDetails";
 import ProfileDetails from "./components/PofileDetails";
+import ChatPage from "./components/ChatPage";
 function AdDetailsRoute({ ads }) {
   const { id } = useParams();
   const ad = ads.find((item) => String(item.id) === id) || ads[0];
@@ -107,6 +108,7 @@ function App() {
   ];
 
   const user = {
+    id: "user-ahmad-ali",
     avatar: "https://i.pravatar.cc/150?img=12",
     name: "Ahmad Ali",
     phone: "+962790000000",
@@ -135,6 +137,19 @@ function App() {
                     user={user}
                     ads={ads}
                     favoriteAds={[ads[1]]}
+                  />
+                }
+              />
+              <Route
+                path="/messages"
+                element={
+                  <ChatPage
+                    currentUser={{
+                      id: user.id,
+                      displayName: user.name,
+                      role: "user",
+                      avatarUrl: user.avatar,
+                    }}
                   />
                 }
               />

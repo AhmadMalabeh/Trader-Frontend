@@ -164,6 +164,7 @@ export default function Navbar({ notificationCount = 5 }) {
               type="button"
               className="rounded-lg p-1.5 transition-colors hover:bg-slate-100"
               aria-label="Messages"
+              onClick={() => navigate("/messages")}
             >
               <MessageSquare className="h-5.5 w-5.5" strokeWidth={2} />
             </button>

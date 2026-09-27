@@ -16,6 +16,7 @@
     "@mui/icons-material": "^9.4.0",
     "@mui/lab": "^9.0.0-beta.9",
     "@mui/material": "^9.4.0",
+    "@mui/x-chat": "^9.0.0-alpha.18",
     "@tailwindcss/vite": "^4.3.3",
     "lucide-react": "^1.48.0",
     "react": "^19.2.8",
@@ -23,7 +24,6 @@
     "react-number-format": "^5.4.5",
     "react-router-dom": "^7.18.4",
     "stylis": "^4.4.0",
-    "stylis-plugin-rtl": "^2.1.1",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {

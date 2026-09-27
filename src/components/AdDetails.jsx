@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -24,6 +25,7 @@ function resolveImageUrl(imagePath, apiBaseUrl) {
 }
 
 export default function AdDetails({ ad = {}, apiBaseUrl = "" }) {
+  const navigate = useNavigate();
   const imageSources = [ad.mainImage, ...(ad.secondaryImages || [])]
     .filter(Boolean)
     .map((imagePath) => resolveImageUrl(imagePath, apiBaseUrl));
@@ -174,6 +176,23 @@ export default function AdDetails({ ad = {}, apiBaseUrl = "" }) {
           >
             Contact seller
           </a>
+          <button
+            type="button"
+            onClick={() => {
+              const params = new URLSearchParams({
+                adId: String(ad.id || ""),
+                adTitle: ad.title || "",
+                adThumbnail: ad.mainImage || "",
+                adPrice: ad.price || "",
+                otherUserId: String(seller.id || seller.userId || "seller"),
+                otherUserName: seller.name || "Seller",
+              });
+              navigate(`/messages?${params.toString()}`);
+            }}
+            className="mt-2 inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-red-500 px-4 py-3 text-center font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          >
+            Message seller
+          </button>
         </section>
 
         {ad.description && (
