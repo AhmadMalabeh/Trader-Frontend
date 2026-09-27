@@ -106,7 +106,7 @@ export default function ProfileDetails({
           <div>
             <Link
               to="/add-new-ad"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#141826] transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
             >
               <Plus size={16} aria-hidden="true" />
               إضافة إعلان جديد
@@ -121,7 +121,7 @@ export default function ProfileDetails({
               نشاطاتي
             </h2>
 
-            <div className="flex w-full gap-2 overflow-x-auto pb-1 sm:w-auto">
+            <div className="flex w-full gap-2 overflow-x-auto p-2 sm:w-auto ">
               {[
                 { value: "my-ads", label: "إعلاناتي" },
                 { value: "favorites", label: "إعلاناتي المفضلة" },
@@ -170,7 +170,7 @@ export default function ProfileDetails({
               </p>
               <Link
                 to="/add-new-ad"
-                className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#141826] transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
               >
                 <Plus size={18} aria-hidden="true" />
                 أضف إعلاناً
