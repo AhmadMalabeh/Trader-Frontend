@@ -83,13 +83,6 @@ export default function ProfileDetails({
           </div>
 
           <div className="flex w-full shrink-0 flex-col items-center gap-3 sm:w-auto sm:items-end">
-            <Link
-              to="/add-new-ad"
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-            >
-              <Plus size={16} aria-hidden="true" />
-              إضافة إعلان جديد
-            </Link>
             <button
               type="button"
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-semibold text-[#141826] transition-colors hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -110,6 +103,16 @@ export default function ProfileDetails({
           aria-labelledby="my-ads-heading"
           className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-sm sm:p-8"
         >
+          <div>
+            <Link
+              to="/add-new-ad"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+              <Plus size={16} aria-hidden="true" />
+              إضافة إعلان جديد
+            </Link>
+          </div>
+
           <div className="flex gap-4 flex-row items-center justify-between">
             <h2
               id="my-ads-heading"
