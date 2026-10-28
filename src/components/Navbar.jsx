@@ -34,7 +34,7 @@ export default function Navbar({ notificationCount = 5 }) {
         className={`${
           isMobileSearchOpen ? "hidden md:flex" : "flex"
         } shrink-0 items-center gap-2 cursor-pointer`}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
