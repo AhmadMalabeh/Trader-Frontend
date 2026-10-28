@@ -1,15 +1,33 @@
 import AddNewAd from "./components/AddNewAd";
 import HomePage from "./components/HomePage";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useParams,
+  Outlet,
+} from "react-router-dom"; // 1. استيراد Outlet
 import Navbar from "./components/Navbar";
 import AdDetails from "./components/AdDetails";
 import ProfileDetails from "./components/PofileDetails";
 import ChatPage from "./components/ChatPage";
+import Login from "./components/Login";
 function AdDetailsRoute({ ads }) {
   const { id } = useParams();
   const ad = ads.find((item) => String(item.id) === id) || ads[0];
 
   return <AdDetails ad={ad} />;
+}
+// 2. إنشاء مكون الـ Layout الذي يحتوي على الـ Navbar وباقي الصفحات
+function MainLayout() {
+  return (
+    <>
+      <Navbar /> {/* الـ Navbar سيظهر هنا دائماً للصفحات التابعة له */}
+      <div className="mt-0">
+        <Outlet /> {/* هنا سيتم عرض المكونات (الصفحات) بشكل ديناميكي */}
+      </div>
+    </>
+  );
 }
 
 function App() {
@@ -117,14 +135,16 @@ function App() {
   };
 
   return (
-    <div className="bg-gray-50  m-auto">
+    <div className="bg-gray-50 m-auto">
       <BrowserRouter>
         <div className="border-2 border-gray-200 rounded-lg shadow-lg max-w-7xl m-auto">
-          <Navbar />
+          <Routes>
+            {/* صفحة الـ Login مستقلة تماماً وخارج الـ Layout، فلن يظهر فيها الـ Navbar */}
+            <Route path="/" element={<Login />} />
 
-          <div className="mt-0">
-            <Routes>
-              <Route path="/" element={<HomePage ads={ads} />} />
+            {/* جميع هذه الصفحات بالأسفل ستعرض داخل الـ MainLayout وبالتالي سيظهر معها الـ Navbar تلقائياً */}
+            <Route element={<MainLayout />}>
+              <Route path="/home" element={<HomePage ads={ads} />} />
               <Route path="/add-new-ad" element={<AddNewAd />} />
               <Route
                 path="/ad-details/:id"
@@ -153,8 +173,8 @@ function App() {
                   />
                 }
               />
-            </Routes>
-          </div>
+            </Route>
+          </Routes>
         </div>
       </BrowserRouter>
     </div>
