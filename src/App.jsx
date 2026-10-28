@@ -12,6 +12,7 @@ import AdDetails from "./components/AdDetails";
 import ProfileDetails from "./components/PofileDetails";
 import ChatPage from "./components/ChatPage";
 import Login from "./components/Login";
+import Register from "./components/Register";
 function AdDetailsRoute({ ads }) {
   const { id } = useParams();
   const ad = ads.find((item) => String(item.id) === id) || ads[0];
@@ -141,6 +142,8 @@ function App() {
           <Routes>
             {/* صفحة الـ Login مستقلة تماماً وخارج الـ Layout، فلن يظهر فيها الـ Navbar */}
             <Route path="/" element={<Login />} />
+
+            <Route path="/register" element={<Register />} />
 
             {/* جميع هذه الصفحات بالأسفل ستعرض داخل الـ MainLayout وبالتالي سيظهر معها الـ Navbar تلقائياً */}
             <Route element={<MainLayout />}>

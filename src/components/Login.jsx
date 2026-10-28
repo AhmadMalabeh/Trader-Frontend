@@ -168,9 +168,12 @@ export default function Login() {
         {/* أسفل الكرت لإنشاء حساب جديد */}
         <div className="text-center text-sm text-gray-500 pt-4 border-t border-gray-100">
           ليس لديك حساب؟{" "}
-          <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+          <button
+            onClick={() => navigate("/register")}
+            className="font-medium text-blue-600 hover:text-blue-500 focus:outline-none"
+          >
             أنشئ حساباً جديداً الآن
-          </a>
+          </button>
         </div>
       </div>
     </div>
